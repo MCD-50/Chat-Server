@@ -1,9 +1,13 @@
 
 import express from 'express';
 import body_parser from 'body-parser';
-const app = express();
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+
+const app = express.createServer(express.logger()),
+const io = require('socket.io').listen(app),
+
+// const app = express();
+// const http = require('http').Server(app);
+// const io = require('socket.io')(http);
 const cors = require('cors');
 const path = require('path');
 const request = require('request');
@@ -25,31 +29,31 @@ app.use(body_parser.json());
 app.use(express.static(path.join(__dirname, 'src')));
 app.use(cors());
 
-http.listen(port, () => {
+app.listen(port, () => {
 	console.log('listening on :', port);
 });
 
 app.get('/', (req, res) => {
-	res.json({ message: 'running' })
-});
+	res.json({ message: 'jai' })
+})
 
-io.on(CONNECTION, (socket) => {
+io.sockets.on(CONNECTION, (socket) => {
 
-	socket.on(JOIN, (room_name) => {
+	io.sockets.on(JOIN, (room_name) => {
 		//if player is already added then remove
 		socket.join(room_name);
-		io.emit(JOINED, "Joined");
+		io.sockets.emit(JOINED, "Joined");
 	});
 
-	socket.on(LEAVE, (room_name) => {
+	io.sockets.on(LEAVE, (room_name) => {
 		//if player is added then remove.
 		socket.leave(room_name);
-		io.emit(LEFT, "Left");
+		io.sockets.emit(LEFT, "Left");
 	});
 
-	socket.on(MESSAGE, (message) => {
+	io.sockets.on(MESSAGE, (message) => {
 		if (message.toLowerCase().includes('welcome')) {
-			io.emit(MESSAGE, { text: message });
+			io.sockets.emit(MESSAGE, { text: message });
 			return;
 		}
 		var options = {
@@ -69,9 +73,9 @@ io.on(CONNECTION, (socket) => {
 
 		request(options, (error, response, body) => {
 			if (error) {
-				io.emit(MESSAGE, { text: 'Something wrong. I answer python questions' });
+				io.sockets.emit(MESSAGE, { text: 'Something wrong. I answer python questions' });
 			} else if (body) {
-				io.emit(MESSAGE, body.message);
+				io.sockets.emit(MESSAGE, body.message);
 			}
 		});
 		//io.emit(MESSAGE, { text: 'Hang on!! getting you there. Im not that cool, I need some time.\n\n\n Processing....' });
