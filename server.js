@@ -29,6 +29,10 @@ http.listen(port, () => {
 	console.log('listening on :', port);
 });
 
+app.get('/', (req, res) => {
+	res.json({ message: 'running' })
+});
+
 io.on(CONNECTION, (socket) => {
 
 	socket.on(JOIN, (room_name) => {
@@ -44,7 +48,7 @@ io.on(CONNECTION, (socket) => {
 	});
 
 	socket.on(MESSAGE, (message) => {
-		if(message.toLowerCase().includes('welcome')){
+		if (message.toLowerCase().includes('welcome')) {
 			io.emit(MESSAGE, { text: message });
 			return;
 		}
