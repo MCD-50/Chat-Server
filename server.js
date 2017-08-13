@@ -74,7 +74,7 @@ io.on(CONNECTION, (socket) => {
 			}
 		});
 
-		io.emit(MESSAGE, { text: 'Hang on!! getting you there. Im not that cool, I need some time.\n\n\n Processing....' });
+		//io.emit(MESSAGE, { text: 'Hang on!! getting you there. Im not that cool, I need some time.\n\n\n Processing....' });
 
 	});
 });
