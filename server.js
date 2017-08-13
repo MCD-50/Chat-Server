@@ -10,7 +10,7 @@ const request = require('request');
 const port = process.env.PORT || 4000;
 
 
- const SERVER_URL = 'https://finper.eu-gb.mybluemix.net/api/response'
+ const SERVER_URL = 'https://finper.eu-gb.mybluemix.net/finpe/process' //'http://192.168.12.225:5000/process' //''
 
 
  const CONNECTION = 'connection';
