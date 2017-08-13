@@ -10,16 +10,16 @@ const request = require('request');
 const port = process.env.PORT || 4000;
 
 
- const SERVER_URL = 'https://finpe.eu-gb.mybluemix.net/process' //'http://192.168.12.225:5000/process' //''
+const SERVER_URL = 'https://finpe.eu-gb.mybluemix.net/process' //'http://192.168.12.225:5000/process' //''
 
 
- const CONNECTION = 'connection';
- const MESSAGE = 'message';
- const JOIN = 'join';
- const LEAVE = 'leave';
- const JOINED = 'joined';
- const LEFT = 'left';
- const ERROR = 'error';
+const CONNECTION = 'connection';
+const MESSAGE = 'message';
+const JOIN = 'join';
+const LEAVE = 'leave';
+const JOINED = 'joined';
+const LEFT = 'left';
+const ERROR = 'error';
 
 
 //app use
@@ -47,7 +47,7 @@ io.on(CONNECTION, (socket) => {
 	});
 
 	socket.on(MESSAGE, (message) => {
-		if(message.toLowerCase().includes('welcome')){
+		if (message.toLowerCase().includes('welcome')) {
 			io.emit(MESSAGE, { text: message });
 			return;
 		}
@@ -70,8 +70,7 @@ io.on(CONNECTION, (socket) => {
 			if (error) {
 				io.emit(MESSAGE, { text: 'Something wrong. I answer python questions' });
 			} else if (body) {
-				//console.log(body)
-				io.emit(MESSAGE, body.message);
+				io.emit(MESSAGE, body['message']);
 			}
 		});
 
